@@ -1,0 +1,33 @@
+.game {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    border: solid 2px #fff;
+    margin-top: 2rem;
+}
+
+.game_menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.game_board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    height: 100%;
+}
+
+.game_button {
+    border: 1px solid #fff;
+    font-size: 4rem;
+    line-height: 0;
+    color: white;
+}
