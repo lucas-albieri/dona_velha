@@ -5,7 +5,7 @@ import './styles/global_styles.css';
 function App() {
   return (
     <div className="pai">
-      <h1>Dona Velha</h1>
+      <h1>Dona Velhinha</h1>
       <Game />
     </div>
   );
