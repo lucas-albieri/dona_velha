@@ -1,5 +1,6 @@
+import { Box, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
-import './style.css';
+import { Winner } from "../winner";
 export const Game = () => {
 
     const buttons = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
@@ -96,52 +97,51 @@ export const Game = () => {
         setPlayer( 1 );
     }
 
-    const itsAtie = Object.values( values ).filter( Boolean ).length === 9 && !winner;
+    const itsDraw = Object.values( values ).filter( Boolean ).length === 9 && !winner;
 
     return (
-        <div className="game">
-            { ( winner || itsAtie ) &&
-                <div className="game_menu">
-                    { winner && (
-                        <>
-                            <h3>O ganhador foi:
-                                { winner > 0 ? 'O' : 'X' }
-                            </h3>
-                            <button
-                                onClick={ reset }
-                            >
-                                Reiniciar o Game
-                            </button>
-                        </>
-                    )
-                    }
-                    {
-                        itsAtie && (
-                            <>
-                                <h3>EMPATE</h3>
-                                <button onClick={ reset }>Reiniciar o Game</button>
-                            </>
-                        )
-                    }
+        <Box
+            position={ "relative" }
+            width={ "450px" }
+            height={ "450px" }
+            marginTop={ "2rem" }
+        >
 
-                </div>
-            }
-            <div className="game_board">
+            <Box
+                display={ 'grid' }
+                gridTemplateColumns={ 'repeat(3, 1fr)' }
+                width={ '100%' }
+                height={ '100%' }
+            >
                 {
                     buttons.map( ( button, index ) => {
                         const key = getKey( index );
                         return (
-                            <button
-                                onClick={ () => handleClick( key ) }
+                            <Button
                                 key={ key }
-                                className="game_button">
+                                variant={ "ghost" }
+                                border={ '2px solid #fff' }
+                                fontSize={ '4rem' }
+                                lineHeight={ 0 }
+                                color={ 'white' }
+                                cursor={ 'pointer' }
+                                backgroundColor={ 'transparent' }
+                                onClick={ () => handleClick( key ) }
+                            >
                                 { getLabel( values[ key ] ) }
-                            </button>
+                            </Button>
                         );
                     } )
                 }
-            </div>
-        </div>
+            </Box>
+            {
+                ( winner || itsDraw ) && <Winner
+                    winner={ winner }
+                    itsDraw={ itsDraw }
+                    reset={ reset }
+                />
+            }
+        </Box>
 
     );
 };
