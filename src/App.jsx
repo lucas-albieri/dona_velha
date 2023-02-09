@@ -1,10 +1,14 @@
 
 import './styles/global_styles.css';
 import wave from './assets/wave.svg';
-import { Box, Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Image, Input, Text } from '@chakra-ui/react';
 import Game from './components/gameLayout';
 import React, { useState } from 'react';
+import gif from './assets/CTM.gif';
+import mario from './assets/mario.gif';
+import pikachu from './assets/pikachu.gif';
 import { useCookies } from 'react-cookie';
+import music from './assets/music.mp3';
 
 function App() {
 
@@ -18,14 +22,22 @@ function App() {
       <Box
         width="100%"
         height="100vh"
-        backgroundImage={ `url(${ wave })` }
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+        backgroundImage={ `url(${ gif })` }
+        backgroundSize="contain"
+        bgColor={ '#000000' }
+        bgPosition={ 'top' }
         display={ 'flex' }
         flexDirection={ 'column' }
         py={ 40 }
         alignItems={ 'center' }
+        position={ 'relative' }
       >
+        <audio
+          src={ music }
+          autoPlay
+        // controls
+
+        />
         <Text
           fontSize={ [ '1rem', '1.5rem', '2rem', '2.5rem' ] }
           fontWeight="bold"
@@ -49,8 +61,8 @@ function App() {
             variant="outline"
             w={ '100%' }
             borderRadius={ '0.35rem' }
-            border={ 'solid 1px white' }
-            bgColor={ 'transparent' }
+            border={ 'none' }
+            bgColor={ 'white' }
             color={ 'white' }
             _placeholder={ { fontWeight: '400' } }
             fontSize={ [ '0.8rem', '1rem', '1.2rem', '1.2rem' ] }
@@ -76,8 +88,8 @@ function App() {
             variant="outline"
             w={ '100%' }
             borderRadius={ '0.35rem' }
-            border={ 'solid 1px white' }
-            bgColor={ 'transparent' }
+            border={ 'none' }
+            bgColor={ 'white' }
             color={ 'white' }
             _placeholder={ { fontWeight: '400' } }
             fontSize={ [ '0.8rem', '1rem', '1.2rem', '1.2rem' ] }
@@ -90,17 +102,37 @@ function App() {
 
         <Button
           onClick={ () => { } }
-          bg={ 'white' }
-          color={ ' #0f1011 ' }
-          variant={ 'unstyled' }
+          bg={ '#633cb6' }
+          color={ ' white ' }
           borderRadius={ '0.35rem' }
-          padding={ '0.8rem 1.5rem' }
+          py={ '0.8rem' }
           border={ 'none' }
           mt={ 60 }
           width={ [ '80%', '60%', '40%', '30%' ] }
+          fontSize={ [ '0.8rem', '1rem', '1.2rem', '1.2rem' ] }
+          fontWeight={ 500 }
+          cursor={ 'pointer' }
+          _hover={ { bg: '#f1edff' } }
         >
           Iniciar o jogo
         </Button>
+        <Box>
+          <Image
+            src={ mario }
+            width={ [ '0%', '0%', '0%', '6%' ] }
+            position={ 'absolute' }
+            bottom={ 20 }
+            left={ 20 }
+
+          />
+          <Image
+            src={ pikachu }
+            width={ [ '0%', '0%', '0%', '10%' ] }
+            position={ 'absolute' }
+            bottom={ 20 }
+            right={ 20 }
+          />
+        </Box>
       </Box>
     );
   }
