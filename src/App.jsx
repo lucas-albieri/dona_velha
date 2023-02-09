@@ -8,16 +8,27 @@ import gif from './assets/CTM.gif';
 import mario from './assets/mario.gif';
 import pikachu from './assets/pikachu.gif';
 import { useCookies } from 'react-cookie';
+import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/solid';
+import ReactPlayer from 'react-player/lazy';
+import Swal from 'sweetalert2';
 import music from './assets/music.mp3';
+import { Loading } from './components/loading';
 
 function App() {
 
-  const [ cookies, setCookie, removieCookie ] = useCookies( [ 'player1', 'player2' ] );
+  const [ cookies, setCookie, removieCookie ] = useCookies( [ 'player1', 'player2', 'scoreP1', 'scoreP2' ] );
 
   const [ player1, setPlayer1 ] = useState( '' );
   const [ player2, setPlayer2 ] = useState( '' );
+  const [ musicOn, setMusicOn ] = useState( false );
+  const [ loading, setLoading ] = useState( false );
+
+  if ( loading ) {
+    return <Loading />;
+  }
 
   if ( !cookies.player1 || !cookies.player2 ) {
+
     return (
       <Box
         width="100%"
@@ -32,12 +43,36 @@ function App() {
         alignItems={ 'center' }
         position={ 'relative' }
       >
-        <audio
-          src={ music }
-          autoPlay
-          controls
+        <Box
+          position={ 'absolute' }
+          top={ 30 }
+          right={ 30 }
+          onClick={ () => setMusicOn( !musicOn ) }
+          cursor={ 'pointer' }
+        >
+          {
+            musicOn ? <SpeakerWaveIcon
+              color='white'
+              width={ 30 }
+            />
+              :
+              <SpeakerXMarkIcon
+                color='white'
+                width={ 30 }
+              />
+          }
 
+        </Box>
+
+        <ReactPlayer
+          url={ music }
+          autoPlay={ true }
+          loop={ true }
+          playing={ musicOn }
+          style={ { display: 'none' } }
+          volume={ 0.02 }
         />
+
         <Text
           fontSize={ [ '1rem', '1.5rem', '2rem', '2.5rem' ] }
           fontWeight="bold"
@@ -63,7 +98,7 @@ function App() {
             borderRadius={ '0.35rem' }
             border={ 'none' }
             bgColor={ 'white' }
-            color={ 'white' }
+            color={ 'black' }
             _placeholder={ { fontWeight: '400' } }
             fontSize={ [ '0.8rem', '1rem', '1.2rem', '1.2rem' ] }
             fontWeight={ 500 }
@@ -90,7 +125,7 @@ function App() {
             borderRadius={ '0.35rem' }
             border={ 'none' }
             bgColor={ 'white' }
-            color={ 'white' }
+            color={ 'black' }
             _placeholder={ { fontWeight: '400' } }
             fontSize={ [ '0.8rem', '1rem', '1.2rem', '1.2rem' ] }
             fontWeight={ 500 }
@@ -101,7 +136,25 @@ function App() {
         </FormControl>
 
         <Button
-          onClick={ () => { } }
+          onClick={ () => {
+            if ( player1 === '' || player2 === '' ) return Swal.fire( {
+              title: 'Ops!',
+              text: 'Preencha os nomes dos jogadores',
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            } );
+            setLoading( true );
+            setTimeout( () => {
+              setCookie( 'player1', player1, {
+                path: '/',
+              } );
+              setCookie( 'player2', player2, {
+                path: '/',
+              } );
+              setLoading( false );
+            }, 2000 );
+
+          } }
           bg={ '#633cb6' }
           color={ ' white ' }
           borderRadius={ '0.35rem' }
@@ -112,7 +165,8 @@ function App() {
           fontSize={ [ '0.8rem', '1rem', '1.2rem', '1.2rem' ] }
           fontWeight={ 500 }
           cursor={ 'pointer' }
-          _hover={ { bg: '#f1edff' } }
+          transition={ 'all 0.2s' }
+          _hover={ { bg: '#5533a0' } }
         >
           Iniciar o jogo
         </Button>

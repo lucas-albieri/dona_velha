@@ -1,5 +1,6 @@
 import { Box, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 import { Winner } from "../winner";
 export const Game = () => {
 
@@ -98,6 +99,10 @@ export const Game = () => {
     }
 
     const itsDraw = Object.values( values ).filter( Boolean ).length === 9 && !winner;
+
+    const { cookies } = useCookies( [ 'player1' ] );
+
+    console.log( cookies );
 
     return (
         <Box

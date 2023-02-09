@@ -1,7 +1,13 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Text, Box, Divider } from "@chakra-ui/react";
 import React from "react";
+import { useCookies } from "react-cookie";
 
 export const Winner = ( { winner, itsDraw, reset } ) => {
+
+    const { cookies } = useCookies( [ 'player1', 'player2', 'scoreP1', 'scoreP2' ] );
+
+    console.log( cookies.get( 'player1' ) );
+
     return (
         <Modal
             isOpen={ true }
@@ -127,7 +133,7 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                                     fontWeight={ 500 }
                                     color={ 'white' }
                                 >
-                                    Jon:
+                                    {/* { cookies.player1 }: */ }a
                                 </Text>
                                 <Text
                                     mt={ 10 }
@@ -147,7 +153,7 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                                     fontWeight={ 500 }
                                     color={ 'white' }
                                 >
-                                    Lucas:
+                                    {/* { cookies.player2 }: */ }a
                                 </Text>
                                 <Text
                                     mt={ 10 }
