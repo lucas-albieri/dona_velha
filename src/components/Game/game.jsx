@@ -104,8 +104,14 @@ export const Game = () => {
                 <div className="game_menu">
                     { winner && (
                         <>
-                            <h3>O ganhador é o: { winner > 0 ? 'O' : 'X' }</h3>
-                            <button onClick={ reset }>Reiniciar o Game</button>
+                            <h3>O ganhador foi:
+                                { winner > 0 ? 'O' : 'X' }
+                            </h3>
+                            <button
+                                onClick={ reset }
+                            >
+                                Reiniciar o Game
+                            </button>
                         </>
                     )
                     }
