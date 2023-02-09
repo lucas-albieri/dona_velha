@@ -35,7 +35,7 @@ function App() {
         <audio
           src={ music }
           autoPlay
-        // controls
+          controls
 
         />
         <Text
