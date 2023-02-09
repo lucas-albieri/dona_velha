@@ -7,21 +7,23 @@ import React, { useState } from 'react';
 import gif from './assets/CTM.gif';
 import mario from './assets/mario.gif';
 import pikachu from './assets/pikachu.gif';
-import { useCookies } from 'react-cookie';
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/solid';
 import ReactPlayer from 'react-player/lazy';
 import Swal from 'sweetalert2';
 import music from './assets/music.mp3';
 import { Loading } from './components/loading';
+import { parseCookies, setCookie } from 'nookies';
 
 function App() {
-
-  const [ cookies, setCookie, removieCookie ] = useCookies( [ 'player1', 'player2', 'scoreP1', 'scoreP2' ] );
 
   const [ player1, setPlayer1 ] = useState( '' );
   const [ player2, setPlayer2 ] = useState( '' );
   const [ musicOn, setMusicOn ] = useState( false );
   const [ loading, setLoading ] = useState( false );
+
+  const cookies = parseCookies();
+
+  console.log( cookies );
 
   if ( loading ) {
     return <Loading />;
