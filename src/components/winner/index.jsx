@@ -1,12 +1,35 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Text, Box, Divider } from "@chakra-ui/react";
-import React from "react";
+import { Button, Modal, ModalBody, ModalContent, Text, Box, Divider } from "@chakra-ui/react";
+import { parseCookies, setCookie } from "nookies";
+import React, { useState } from "react";
+import { ResetLoading } from "../resetLoading";
 
 export const Winner = ( { winner, itsDraw, reset } ) => {
+
+    const cookies = parseCookies();
+    const [ isLoading, setIsLoading ] = useState( false );
+
+    const resetScore = () => {
+        setIsLoading( true );
+        setTimeout( () => {
+            setCookie( null, 'scoreP1', 0, {
+                path: '/',
+            } );
+            setCookie( null, 'scoreP2', 0, {
+                path: '/',
+            } );
+            setIsLoading( false );
+            reset();
+        }, 4000 );
+    };
+
+    if ( isLoading ) {
+        return <ResetLoading />;
+    }
+
     return (
         <Modal
             isOpen={ true }
             onClose={ reset }
-            isCentered
         >
             <ModalContent>
                 <ModalBody
@@ -75,7 +98,7 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                                     fontWeight={ 'bold' }
                                     color={ 'white' }
                                 >
-                                    { winner > 0 ? 'O' : 'X' }
+                                    { winner === 1 ? cookies.player1 : cookies.player2 }
                                 </Text>
                                 <Button
                                     onClick={ reset }
@@ -108,13 +131,39 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                         width={ '100%' }
                         mt={ 20 }
                     >
-                        <Text
-                            fontSize={ '2rem' }
-                            fontWeight={ 500 }
-                            color={ 'white' }
+                        <Box
+                            display={ 'flex' }
+                            alignItems={ 'center' }
+                            justifyContent={ 'center' }
+                            position={ 'relative' }
+                            width={ '50%' }
                         >
-                            Placares
-                        </Text>
+                            <Text
+                                fontSize={ '2rem' }
+                                fontWeight={ 500 }
+                                color={ 'white' }
+                                textAlign={ 'center' }
+
+                            >
+                                Placar
+                            </Text>
+                            <Button
+                                onClick={ () => resetScore() }
+                                variant={ 'unstyled' }
+                                background={ 'linear-gradient(90deg, #477ce0 0%, #e07f47 100%)' }
+                                backgroundClip={ 'text' }
+                                WebkitBackgroundClip={ 'text' }
+                                fontSize={ '1rem' }
+                                position={ 'absolute' }
+                                right={ 0 }
+                                top={ 0 }
+                                border={ 'none' }
+                                cursor={ 'pointer' }
+
+                            >
+                                Zerar placar
+                            </Button>
+                        </Box>
                         <Box
                             mt={ 30 }
                             display={ 'flex' }
@@ -127,7 +176,7 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                                     fontWeight={ 500 }
                                     color={ 'white' }
                                 >
-                                    {/* { cookies.player1 }: */ }a
+                                    { cookies.player1 ?? 'Jogador 1' }:
                                 </Text>
                                 <Text
                                     mt={ 10 }
@@ -138,7 +187,7 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                                     padding={ '0.5rem 1rem' }
                                     color={ 'white' }
                                 >
-                                    10 vitórias
+                                    { cookies.scoreP1 ?? 0 } vitórias
                                 </Text>
                             </Box>
                             <Box>
@@ -147,7 +196,7 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                                     fontWeight={ 500 }
                                     color={ 'white' }
                                 >
-                                    {/* { cookies.player2 }: */ }a
+                                    { cookies.player2 ?? 'Jogador 2' }:
                                 </Text>
                                 <Text
                                     mt={ 10 }
@@ -158,7 +207,7 @@ export const Winner = ( { winner, itsDraw, reset } ) => {
                                     padding={ '0.5rem 1rem' }
                                     color={ 'white' }
                                 >
-                                    10 vitórias
+                                    { cookies.scoreP2 ?? 0 } vitórias
                                 </Text>
                             </Box>
                         </Box>

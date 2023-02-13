@@ -23,8 +23,6 @@ function App() {
 
   const cookies = parseCookies();
 
-  console.log( cookies );
-
   if ( loading ) {
     return <Loading />;
   }
@@ -147,10 +145,16 @@ function App() {
             } );
             setLoading( true );
             setTimeout( () => {
-              setCookie( 'player1', player1, {
+              setCookie( null, 'player1', player1, {
                 path: '/',
               } );
-              setCookie( 'player2', player2, {
+              setCookie( null, 'scoreP1', 0, {
+                path: '/',
+              } );
+              setCookie( null, 'scoreP2', 0, {
+                path: '/',
+              } );
+              setCookie( null, 'player2', player2, {
                 path: '/',
               } );
               setLoading( false );
@@ -193,14 +197,44 @@ function App() {
     );
   }
 
+
   return (
     <Box
       width="100%"
+      position={ 'relative' }
       height="100vh"
       backgroundImage={ `url(${ wave })` }
       backgroundRepeat="no-repeat"
       backgroundSize="cover"
     >
+      <Box
+        position={ 'absolute' }
+        top={ 30 }
+        right={ 30 }
+        onClick={ () => setMusicOn( !musicOn ) }
+        cursor={ 'pointer' }
+      >
+        {
+          musicOn ? <SpeakerWaveIcon
+            color='white'
+            width={ 30 }
+          />
+            :
+            <SpeakerXMarkIcon
+              color='white'
+              width={ 30 }
+            />
+        }
+
+      </Box>
+      <ReactPlayer
+        url={ music }
+        autoPlay={ true }
+        loop={ true }
+        playing={ musicOn }
+        style={ { display: 'none' } }
+        volume={ 0.02 }
+      />
       <Text
         textAlign="center"
         fontSize={ [ '2rem', '3rem', '4rem', '5rem' ] }
@@ -215,7 +249,61 @@ function App() {
         display={ 'flex' }
         justifyContent={ 'center' }
       >
-        <Game />
+        {/* jogador da esquerda */ }
+        <Box
+          w={ '33%' }
+          display={ 'flex' }
+          alignItems={ 'center' }
+          flexDirection={ 'column' }
+
+        >
+          <Text
+            fontSize={ [ '1rem', '1.5rem', '2rem', '2.5rem' ] }
+            color="#fff"
+          >
+            { cookies.player1 }:
+          </Text>
+          <Text
+            fontSize={ [ '1rem', '1.5rem', '2rem', '5rem' ] }
+            color="#fff"
+            fontWeight={ 'bold' }
+          >
+            O
+          </Text>
+        </Box>
+
+        {/* jogo */ }
+        <Box
+          w={ '33%' }
+          display={ 'flex' }
+          justifyContent={ 'center' }
+          alignItems={ 'center' }
+        >
+          <Game />
+
+        </Box>
+
+        {/* jogador da direita */ }
+        <Box
+          w={ '33%' }
+          display={ 'flex' }
+          alignItems={ 'center' }
+          flexDirection={ 'column' }
+        >
+          <Text
+            fontSize={ [ '1rem', '1.5rem', '2rem', '2.5rem' ] }
+            color="#fff"
+          >
+            { cookies.player2 }:
+          </Text>
+          <Text
+            fontSize={ [ '1rem', '1.5rem', '2rem', '5rem' ] }
+            color="#fff"
+            fontWeight={ 'bold' }
+          >
+            X
+          </Text>
+        </Box>
       </Box>
     </Box>
   );

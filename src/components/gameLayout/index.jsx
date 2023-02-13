@@ -1,4 +1,5 @@
 import { Box, Button } from "@chakra-ui/react";
+import { parseCookies, setCookie } from "nookies";
 import React, { useState } from "react";
 import { Winner } from "../winner";
 export const Game = () => {
@@ -7,6 +8,8 @@ export const Game = () => {
     const [ values, setValues ] = useState( getInitialState );
     const [ player, setPlayer ] = useState( 1 );
     const [ winner, setWinner ] = useState( null );
+
+    const cookies = parseCookies();
 
     function getInitialState() {
         const state = {};
@@ -38,10 +41,21 @@ export const Game = () => {
         setValues( newValues );
         setPlayer( player * -1 );
         const newWinner = getWinner( newValues );
-        console.log( newWinner );
 
         if ( newWinner != null ) {
             setWinner( newWinner > 0 ? 1 : -1 );
+            if ( newWinner === 3 ) {
+                setCookie( null, 'scoreP1', +cookies.scoreP1 + 1, {
+                    path: '/',
+                } );
+            }
+            else if ( newWinner === -3 ) {
+                console.log( 'maria', newWinner );
+                setCookie( null, 'scoreP2', +cookies.scoreP2 + 1, {
+                    path: '/',
+                }
+                );
+            }
         }
     }
 
